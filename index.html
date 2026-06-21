@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -192,4 +192,61 @@
 
     <script>
         // Exact revised user messages mapped sequentially to Days 1-10
-        const messages
+        const messages = [
+            "You are doing so well, Chloe. Take a deep breath and give yourself credit for all that you've faced with strength and with your big beautiful heart.",
+            "Just a reminder for you today, Chloe: you are incredibly loved, valued and capable of achieving amazing things.",
+            "Your kindness and warmth make the world a much brighter place, Chloe. Never forget the impact you have. Bless the world with your presence!",
+            "Chloe, I hope you know that you are everything to me! I think about every moment, I am with you when its tough and I know we will coninue to make eachother happier forever",
+            "Pack your bags! we are going to Italy! Soon... I just need to buy you that ring first",
+            "I am so proud to see you grow Chloe, keep on waking up and trying your best because I promise it is working, just wait til you see it!",
+            "Being with you is all I can ever ask for. No matter the circumstance, I am fulfilled by being by your side. My heart is filled by you",
+            "Your big beautiful eyes deserve to see the beautiful things in life! Go look at the mirror... no but seriously you are truly perfect. Go see what you want to see and do what you want to do, no one can stop you!",
+            "You are reading this right now and I know we are both thinking the same thing - wouldn't a couple blizzards and some nice giggles be perfect right now?",
+            "We are so close Chloe! We are almost at happy ever after... I can feel ittttttttt.. AHHHHHHHH Chloe and Sam! Chloe and Sam! SO closeeee"
+        ];
+
+        const openedDays = new Set();
+        const gridEl = document.getElementById('calendarGrid');
+        const messageEl = document.getElementById('message');
+        const trackerEl = document.getElementById('tracker');
+
+        function buildCalendar() {
+            for (let i = 1; i <= 10; i++) {
+                const card = document.createElement('button');
+                card.classList.add('day-card');
+                card.textContent = i;
+                card.setAttribute('data-index', i - 1);
+                
+                card.addEventListener('click', (e) => handleCardClick(e.currentTarget, i - 1));
+                gridEl.appendChild(card);
+            }
+        }
+
+        function handleCardClick(cardElement, index) {
+            document.querySelectorAll('.day-card').forEach(btn => btn.classList.remove('active-card'));
+            
+            cardElement.classList.add('opened', 'active-card');
+            openedDays.add(index);
+            
+            updateTracker();
+
+            messageEl.classList.remove('fade-in');
+            setTimeout(() => {
+                messageEl.textContent = messages[index];
+                messageEl.classList.add('fade-in');
+            }, 150);
+        }
+
+        function updateTracker() {
+            const openedCount = openedDays.size;
+            const leftCount = messages.length - openedCount;
+            trackerEl.textContent = `${openedCount} / 10 Opened • ${leftCount} Left`;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            buildCalendar();
+            messageEl.classList.add('fade-in');
+        });
+    </script>
+</body>
+</html>
