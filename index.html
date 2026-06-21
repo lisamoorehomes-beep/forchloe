@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Chloe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #fff0f3;
+            --text-color: #5c3d42;
+            --accent-color: #ff85a1;
+            --opened-color: #ffb3c1;
+            --button-text: #ffffff;
+            --tracker-color: #ba9499;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 133, 161, 0.2) 0%, transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.8rem;
+        }
+
+        /* Romantic Welcome Header */
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .welcome-subtitle {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: var(--tracker-color);
+        }
+
+        /* Stats Tracker Countdown */
+        .tracker {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--tracker-color);
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* Advent Calendar Grid Layout */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+
+        .day-card {
+            background-color: var(--accent-color);
+            color: var(--button-text);
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 133, 161, 0.2);
+            transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .day-card:active {
+            transform: scale(0.93);
+        }
+
+        /* State for an opened calendar day */
+        .day-card.opened {
+            background-color: var(--opened-color);
+            box-shadow: none;
+        }
+
+        .day-card.active-card {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(255, 133, 161, 0.6);
+            border: 2px solid #fff;
+        }
+
+        /* Display Box for the Messages */
+        .message-box {
+            min-height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .message-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.45rem;
+            line-height: 1.5;
+            color: var(--text-color);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .message-text.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Layout modifications for smaller devices */
+        @media (max-width: 400px) {
+            .welcome-title {
+                font-size: 1.75rem;
+            }
+            .calendar-grid {
+                gap: 8px;
+            }
+            .day-card {
+                font-size: 1rem;
+                border-radius: 8px;
+            }
+            .message-text {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="welcome-header">
+            <h1 class="welcome-title">I love you, Chloe!</h1>
+            <p class="welcome-subtitle">Open the advent calendar below to receive your love messages.</p>
+        </div>
+
+        <div class="tracker" id="tracker">0 / 10 Opened • 10 Left</div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+        
+        <div class="message-box">
+            <p id="message" class="message-text">Pick a day to uncover your love note...</p>
+        </div>
+    </div>
+
+    <script>
+        // Exact revised user messages mapped sequentially to Days 1-10
+        const messages
